@@ -6,31 +6,36 @@ import java.util.Scanner;
 
 
 public class Main {
-    public static void main(String[] args) throws FileNotFoundException {
-
+    public static void main(String[] args) {
+        File f = new File("fisier.txt");
+        Scanner sc = null;
         Map<String, Integer> map = new HashMap<>();
         try {
-            Scanner sc = new Scanner(new File("fisier.txt"));
-            while (sc.hasNext()) {
-                String line = sc.next();
-                String[] cuvinte = line.split(" ");
-                for (String cuv : cuvinte) {
-                    cuv = cuv.toLowerCase();
-                    if (!map.containsKey(cuv)) {
-                        map.put(cuv, map.get(cuv) + 1);
-                    } else {
-                        map.put(cuv, 1);
+            sc = new Scanner(f);
+
+            if (sc != null) {
+                while (sc.hasNext()) {
+                    String line = sc.next();
+                    String[] cuvinte = line.split(" ");
+                    for (String cuv : cuvinte) {
+                        cuv = cuv.toLowerCase();
+                        if (map.containsKey(cuv)) {
+                            map.put(cuv, map.get(cuv) + 1);
+                        } else {
+                            map.put(cuv, 1);
+                        }
                     }
                 }
-            }
-            sc.close();
-        }   catch (FileNotFoundException e) {
-        System.out.println("Fișierul nu a fost găsit!");
-        return;
-    }
 
-           for (String cuv : map.keySet()) {
-               System.out.println(cuv + " " + map.get(cuv));
-           }
+                for (String cuv : map.keySet()) {
+                    System.out.println(cuv + " " + map.get(cuv));
+                }
+            }
+
+            sc.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Fișierul nu a fost găsit!");
+            return;
+        }
     }
 }
